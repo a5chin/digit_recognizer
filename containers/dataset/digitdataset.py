@@ -7,10 +7,9 @@ from pathlib import Path
 
 
 class DigitDataset(Dataset):
-    def __init__(self, root: str="data/train.csv", transforms: Optional[Compose]=None) -> None:
+    def __init__(self, df: pd.DataFrame, transforms: Optional[Compose]=None) -> None:
         super().__init__()
-        self.root = Path(root)
-        self.df = DigitDataset._read_csv(root=root)
+        self.df = df
         self.transforms = transforms
 
     def __getitem__(self, index: int):
@@ -24,7 +23,3 @@ class DigitDataset(Dataset):
 
     def __len__(self):
         return len(self.df)
-
-    @staticmethod
-    def _read_csv(root: str) -> pd.DataFrame:
-        return pd.read_csv(root)

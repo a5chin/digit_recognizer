@@ -1,3 +1,5 @@
+import pandas as pd
+from numpy import random
 from typing import Tuple
 from torch.utils.data import random_split, DataLoader
 
@@ -9,15 +11,17 @@ def build_dataloader(
     ratio: float=0.8,
     batch_size: int=64
 ) -> Tuple[DataLoader, DataLoader]:
-    dataset = DigitDataset(root=root, transforms=get_transforms())
+    df = pd.read_csv(root).sample(frac=1)
+    partition = int(len(df) * ratio)
+    df_train, df_val = df.iloc[: partition, :], df.iloc[partition: , :]
 
-    len_data = len(dataset)
-    len_train = int(len_data * ratio)
-    len_val = len_data - len_train
-
-    train_dataset, val_dataset = random_split(
-        dataset=dataset,
-        lengths=[len_train, len_val]
+    train_dataset = DigitDataset(
+        df=df_train,
+        transforms=get_transforms()["train"]
+    )
+    val_dataset = DigitDataset(
+        df=df_val,
+        transforms=get_transforms()["val"]
     )
 
     train_dataloader = DataLoader(
