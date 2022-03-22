@@ -1,0 +1,7 @@
+hydra-core
+numpy
+pandas
+tqdm
+torch
+torchvision
+tensorboard

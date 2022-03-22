@@ -1,0 +1,15 @@
+SETTINGS:
+  TOTAL_EPOCH: 100
+  OPTIMIZER: SGD
+  CRITERION: NLLLoss
+MODEL:
+  # ResNet
+  NAME: ResNet
+  NUM_CLASSES: 10
+  CKPT: ckpt
+DATA:
+  ROOT: data/train.csv
+  RATIO: 0.8
+  BATCH_SIZE: 128
+SCHEDULER: CosineAnnealingLR(self.optimizer, T_max=20, eta_min=1e-4)
+# CosineAnnealingWarmupRestarts(self.optimizer, first_cycle_steps=50, cycle_mult=1.0, max_lr=5e-2, min_lr=5e-5, warmup_steps=5, gamma=0.5)
